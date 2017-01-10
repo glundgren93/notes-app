@@ -11,7 +11,11 @@ console.log('Starting app');
 
 switch (command) {
     case "add":
-        notes.addNote(argv.title, argv.body);
+        var note = notes.addNote(argv.title, argv.body);
+        if(note)
+          console.log("The following note was added:", note.title, note.body);
+        else
+          console.log("Cannot add note with duplicate title");
         break;
     case "list":
         notes.getAll();
