@@ -1,60 +1,69 @@
-const fs = require('fs');
+const fs = require("fs");
 
-var fetchNotes = () => {
-    try {
-        var noteString = fs.readFileSync('notes-data.json');
-        return JSON.parse(noteString);
-    } catch (e) {
-        return [];
-    }
-}
+const fetchNotes = () => {
+  try {
+    var noteString = fs.readFileSync("notes-data.json");
+    return JSON.parse(noteString);
+  } catch (e) {
+    return [];
+  }
+};
 
-var checkDuplicateTitle = (arr, title) => {
-    return arr.filter((note) => note.title === title);
-}
+const filterNoteTitle = (arr, title) => {
+  return arr.filter(note => note.title.toUpperCase() === title.toUpperCase());
+};
 
-var writeNote = (notes) => {
-    fs.writeFileSync('notes-data.json', JSON.stringify(notes));
-}
+const writeNote = notes => {
+  fs.writeFileSync("notes-data.json", JSON.stringify(notes));
+};
 
 /**
  * add --title=NoteTitle --body="Note body"
  */
-var addNote = (title, body) => {
-    console.log("Trying to add Note");
-    var note = {
-        title,
-        body
-    };
-    var notes = fetchNotes();
-    var duplicateNotes = checkDuplicateTitle(notes, title);
+const addNote = (title, body) => {
+  console.log("Trying to add Note");
+  var note = { title, body };
+  var notes = fetchNotes();
+  const duplicateNotes = filterNoteTitle(notes, title);
 
-    if (duplicateNotes.length === 0) {
-        notes.push(note);
-        writeNote(notes);
-        return note;
-    }
+  if (duplicateNotes.length === 0) {
+    notes.push(note);
+    writeNote(notes);
+    return note;
+  }
 };
 
 /**
  * list
- * @return {[type]} [description]
  */
-var getAll = () => {
-    console.log('getting all notes');
-}
+const getAll = () => {
+  console.log("getting all notes");
+};
 
-var getNote = (title) => {
-    console.log('note found', title);
-}
+const getNote = title => {
+  const notes = fetchNotes();
+  const filteredNote = filterNoteTitle(notes, title);
+  return filteredNote[0];
+};
 
-var deleteNote = (title) => {
-    console.log('deleted', title);
-}
+/**
+ * delete --title=NoteTitle
+ */
+const deleteNote = title => {
+  const notes = fetchNotes();
+  const filteredNotes = notes.filter(
+    note => note.title.toUpperCase() !== title.toUpperCase()
+  );
+  writeNote(filteredNotes);
 
-module.exports = {
-    addNote,
-    getAll,
-    getNote,
-    deleteNote
-}
+  return notes.length !== filteredNotes.length;
+};
+
+/**
+ * Clear Note files
+ */
+const clearNotes = () => {
+  writeNote([]);
+};
+
+module.exports = { addNote, getAll, getNote, deleteNote, clearNotes };
