@@ -1,4 +1,4 @@
-const notes = require("../notes");
+const notes = require("../src/notes");
 
 /**
  * Clear Note files before each test
