@@ -21,4 +21,13 @@ describe("note", () => {
     notes.addNote("NoteTitle", "NoteBody");
     expect(notes.getNote("NoteBody")).not.toBeNull();
   });
+
+  it("should list 2 notes", () => {
+    notes.addNote("NoteTitle", "NoteBody");
+    notes.addNote("NoteTitle2", "NoteBody2");
+
+    const listedNotes = notes.getAll();
+
+    expect(listedNotes.length).toBe(2);
+  });
 });

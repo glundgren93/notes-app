@@ -5,7 +5,7 @@ const yargs = require("yargs");
 const notes = require("./src/notes.js");
 
 const argv = yargs.argv;
-var command = argv._[0];
+const command = argv._[0];
 
 console.log("Starting app");
 
