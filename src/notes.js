@@ -66,4 +66,10 @@ const clearNotes = () => {
   writeNote([]);
 };
 
-module.exports = { addNote, getAll, getNote, deleteNote, clearNotes };
+const logNote = note => {
+  console.log("---");
+  console.log(`Title: ${note.title}`);
+  console.log(`Body: ${note.body}`);
+};
+
+module.exports = { addNote, getAll, getNote, deleteNote, clearNotes, logNote };

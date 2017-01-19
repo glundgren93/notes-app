@@ -18,15 +18,17 @@ switch (command) {
       console.log("Cannot add note with duplicate title");
     break;
   case "list":
-    notes.getAll();
+    const allNotes = notes.getAll();
+    console.log(`Printing ${allNotes.length} note(s)`);
+    allNotes.forEach(note => {
+      notes.logNote(note);
+    });
     break;
   case "read":
     var note = notes.getNote(argv.title);
 
     if (note) {
-      console.log("---");
-      console.log(`Title: ${note.title}`);
-      console.log(`Body: ${note.body}`);
+      notes.logNote(note);
     } else {
       console.log("Note not found");
     }
