@@ -1,19 +1,25 @@
 const fs = require("fs");
 const _ = require("lodash");
 const yargs = require("yargs");
-
 const notes = require("./src/notes.js");
 
-const argv = yargs.argv;
-const command = argv._[0];
+const titleOptions = { describe: "Note Title", demand: true, alias: "t" };
+const bodyOptions = { describe: "Note body", demand: true, alias: "b" };
 
-console.log("Starting app");
+const argv = yargs
+  .command("add", "Add a new note", { title: titleOptions, body: bodyOptions })
+  .command("list", "List all notes")
+  .command("read", "Read a note", { title: titleOptions })
+  .command("remove", "Remove a note", { title: titleOptions })
+  .help().argv;
+
+const command = argv._[0];
 
 switch (command) {
   case "add":
     var note = notes.addNote(argv.title, argv.body);
     if (note)
-      console.log("The following note was added:", note.title, note.body);
+      notes.logNote(note);
     else
       console.log("Cannot add note with duplicate title");
     break;

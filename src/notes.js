@@ -21,7 +21,6 @@ const writeNote = notes => {
  * add --title=NoteTitle --body="Note body"
  */
 const addNote = (title, body) => {
-  console.log("Trying to add Note");
   var note = { title, body };
   var notes = fetchNotes();
   const duplicateNotes = filterNoteTitle(notes, title);
